@@ -1,30 +1,45 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:astro/presentation/food/detail/bloc/detail_bloc.dart';
+import 'package:astro/presentation/food/detail/bloc/detail_event.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:test/test.dart';
 
-import 'package:astro/main.dart';
+class MockDetailBloc extends MockBloc<DetailEvent, int> implements DetailBloc {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  setUpAll(() {
+    registerFallbackValue<DetailEvent>(DetailEvent.add);
+    registerFallbackValue<DetailEvent>(DetailEvent.remove);
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  mainBloc();
+}
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+void mainBloc() {
+  group('whenListen', () {
+    test("Let's mock the CounterBloc's stream!", () {
+      final bloc = MockDetailBloc();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      whenListen(bloc, Stream.fromIterable([0, 1, 2, 3]));
+
+      expectLater(bloc.stream, emitsInOrder(<int>[0, 1, 2, 3]));
+    });
+  });
+
+  group('Detailbloc', () {
+    blocTest<MockDetailBloc, int>(
+      'emits [] when nothing is added',
+      build: () => MockDetailBloc(),
+      expect: () => const <int>[],
+    );
+
+    blocTest<MockDetailBloc, int>(
+      'emits [1] when CounterEvent.increment is added',
+      build: () => MockDetailBloc(),
+      act: (bloc) => bloc.add(DetailEvent.add),
+      expect: () => const <int>[],
+    );
   });
 }
