@@ -5,4 +5,6 @@ class StringConstants {
   static const String labelPopularFood = 'Popular Food';
   static const String labelMenu = 'Menu';
   static const String labelSearchFood = 'Search Food';
+  static const String labelIngredientsFor = 'Ingredients For';
+  static const String labelServings = 'Servings';
 }
