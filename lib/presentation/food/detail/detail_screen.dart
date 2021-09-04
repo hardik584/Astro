@@ -1,5 +1,6 @@
 import 'package:astro/constants/list_constants.dart';
 import 'package:astro/constants/string_constants.dart';
+import 'package:astro/constants/widget_key_constants.dart';
 import 'package:astro/domain/model/product_model.dart';
 import 'package:astro/presentation/food/detail/bloc/detail_bloc.dart';
 import 'package:astro/presentation/food/detail/bloc/detail_event.dart';
@@ -166,6 +167,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               Row(
                                 children: [
                                   FloatingActionButton(
+                                    key: WidgetKeyConstants.incrementButtonKey,
                                     heroTag: 'add',
                                     onPressed: () {
                                       detailBloc.add(DetailEvent.add);
@@ -180,6 +182,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     child: Text('$state'),
                                   ),
                                   FloatingActionButton(
+                                    key: WidgetKeyConstants.decrementButtonKey,
                                     heroTag: 'remove',
                                     onPressed: () {
                                       if (state > 1) {
