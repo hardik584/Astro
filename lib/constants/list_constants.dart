@@ -66,4 +66,6 @@ class ListConstants {
         foodName: 'Dosa',
         starRating: 5.0),
   ];
+
+  static List<String> detailsList = ["Ingredients","Steps","Nutrition"];
 }

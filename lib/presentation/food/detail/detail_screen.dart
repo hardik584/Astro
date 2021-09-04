@@ -1,5 +1,8 @@
+import 'package:astro/constants/list_constants.dart';
 import 'package:astro/domain/model/product_model.dart';
+import 'package:astro/presentation/food/detail/widgets/detail_tile_widget.dart';
 import 'package:astro/presentation/themes/color_constants.dart';
+import 'package:astro/presentation/themes/text_style_constants.dart';
 import 'package:astro/presentation/widgets/components/spacings.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +15,8 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  int servings = 1;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -53,47 +58,156 @@ class _DetailScreenState extends State<DetailScreen> {
                   )),
             ],
           ),
-          Container(
-            padding: EdgeInsets.all(Spacings.medium),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(Spacings.medium),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.comment_outlined),
-                        SizedBox(
-                          width: Spacings.small,
+                        Row(
+                          children: [
+                            Icon(Icons.comment_outlined),
+                            SizedBox(
+                              width: Spacings.small,
+                            ),
+                            Text('350')
+                          ],
                         ),
-                        Text('350')
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.star_outline),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.bookmark_outline),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.share_outlined),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
+                    SizedBox(
+                      height: Spacings.medium,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                        itemCount: ListConstants.detailsList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(right: Spacings.medium),
+                            padding: EdgeInsets.all(Spacings.small),
+                            decoration: BoxDecoration(
+                                color: index == 0
+                                    ? ColorConstants.red
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                                child: Text(
+                              ListConstants.detailsList[index],
+                              style: index == 0
+                                  ? TextStyleConstants.titleWhiteTextStyle
+                                  : TextStyleConstants.hintTextStyle,
+                            )),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: Spacings.large,
+                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.star_outline),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ingredients For',
+                              style: TextStyleConstants.titleTextStyle,
+                            ),
+                            SizedBox(
+                              height: Spacings.small,
+                            ),
+                            Text(
+                              '$servings Servings',
+                              style: TextStyleConstants.subtitleTextStyle,
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.bookmark_outline),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.share_outlined),
-                        ),
+                        Row(
+                          children: [
+                            FloatingActionButton(
+                              heroTag: 'add',
+                              onPressed: () {
+                                if (servings < 10) {
+                                  servings++;
+                                  setState(() {});
+                                }
+                              },
+                              mini: true,
+                              backgroundColor: ColorConstants.red,
+                              child: Icon(Icons.add),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Spacings.small),
+                              child: Text('$servings'),
+                            ),
+                            FloatingActionButton(
+                              heroTag: 'remove',
+                              onPressed: () {
+                                if (servings > 1) {
+                                  servings--;
+                                  setState(() {});
+                                }
+                              },
+                              mini: true,
+                              backgroundColor: ColorConstants.red,
+                              child: Icon(Icons.remove),
+                            ),
+                          ],
+                        )
                       ],
+                    ),
+                    DetailTileWidget(
+                      title: 'Flatiron steak',
+                      value: '${servings * 2} pound',
+                      imagePath:
+                          "https://embed.widencdn.net/img/beef/rnsfu27fjk/480x360px/Flat%20Iron%20Steak.psd?keep=c&u=7fueml",
+                    ),
+                    DetailTileWidget(
+                      title: 'Fresh lemon juice',
+                      value: '${servings * 2} tablespoon',
+                      imagePath:
+                          "https://homepuff.com/wp-content/uploads/2019/04/lemon-juice.jpg",
+                    ),
+                    DetailTileWidget(
+                      title: 'Olive oil',
+                      value: '${servings * 3} tablespoon',
+                      imagePath:
+                          "https://static.toiimg.com/thumb/74281085.cms?width=680&height=512&imgsize=1402433",
+                    ),
+                    DetailTileWidget(
+                      title: 'Fresh parsley leaves',
+                      value: '${servings * 5} piece',
+                      imagePath:
+                          "https://post.psychcentral.com/wp-content/uploads/2020/01/parsley-herb-1200x628-facebook.jpg",
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: Spacings.medium,
-                ),
-
-                // ListView.builder(itemBuilder: b)
-              ],
+              ),
             ),
           )
         ],

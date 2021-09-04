@@ -11,6 +11,21 @@ class TextStyleConstants {
     fontFamily: _fontFamily,
   );
 
+    static const TextStyle titleRegularTextStyle = TextStyle(
+    fontSize: 20,
+    color: ColorConstants.black,
+    fontWeight: FontWeight.w400,
+    fontFamily: _fontFamily,
+  );
+
+
+  static const TextStyle titleWhiteTextStyle = TextStyle(
+    fontSize: 20,
+    color: ColorConstants.white,
+    fontWeight: FontWeight.w400,
+    fontFamily: _fontFamily,
+  );
+
   static const TextStyle hintTextStyle = TextStyle(
     fontSize: 20,
     color: ColorConstants.grey,
