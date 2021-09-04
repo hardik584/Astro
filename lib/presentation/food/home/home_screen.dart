@@ -1,5 +1,6 @@
 import 'package:astro/constants/list_constants.dart';
 import 'package:astro/constants/string_constants.dart';
+import 'package:astro/presentation/food/detail/bloc/detail_bloc.dart';
 import 'package:astro/presentation/food/detail/detail_screen.dart';
 import 'package:astro/presentation/food/home/widgets/category_widget.dart';
 import 'package:astro/presentation/food/home/widgets/product_widget.dart';
@@ -10,6 +11,7 @@ import 'package:astro/presentation/widgets/components/custom_text_field.dart';
 import 'package:astro/presentation/widgets/components/spacings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as drop;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -146,9 +148,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     onTap: () {
                       AppNavigator.navigateTo(
                           context: context,
-                          widget: DetailScreen(
-                              productModel:
-                                  ListConstants.productModelList[index]));
+                          widget: BlocProvider(
+                            create: (_) => DetailBloc(),
+                            child: DetailScreen(
+                                productModel:
+                                    ListConstants.productModelList[index]),
+                          ));
                     },
                   );
                 },
